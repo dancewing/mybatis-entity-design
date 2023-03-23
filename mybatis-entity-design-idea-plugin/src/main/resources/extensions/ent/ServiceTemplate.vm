@@ -1,0 +1,12 @@
+package ${object.package.parent}.service;
+
+import java.util.Map;
+import java.util.List;
+
+
+/**
+ * $!{object.comment}服务接口
+ */
+public interface ${object.name}Service {
+
+}

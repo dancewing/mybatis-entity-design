@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE med PUBLIC
+        "-//Mybatis//DTD Mybatis Design Configuration 1.0//EN"
+        "./generator-idea-plugin/src/main/xsd/mybatis-mapping-bindings-1.0.dtd">
+<med>
+    <module name="change later" package="">
+        <base-entity>io.entframework.kernel.db.api.pojo.entity.BaseEntity</base-entity>
+        <entity name="SysFileInfo" description="文件信息">
+            <table name="sys_file_info"/>
+            <attributes>
+                <id name="fileId" type="java.lang.Long" description="文件主键id">
+                    <column name="file_id" nullable="false" jdbc-type="BIGINT"/>
+                </id>
+
+                <basic name="fileBucket" type="java.lang.String" description="文件仓库（文件夹）">
+                    <column name="file_bucket" nullable="false" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="fileOriginName" type="java.lang.String" description="文件名称（上传时候的文件全名）">
+                    <column name="file_origin_name" nullable="false" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="fileSuffix" type="java.lang.String" description="文件后缀，例如.txt">
+                    <column name="file_suffix" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="fileSizeKb" type="java.lang.Long" description="文件大小kb为单位">
+                    <column name="file_size_kb" jdbc-type="BIGINT"/>
+                </basic>
+                <basic name="fileObjectName" type="java.lang.String" description="存储到bucket中的名称，主键id+.后缀">
+                    <column name="file_object_name" length="255"/>
+                </basic>
+                <basic name="filePath" type="java.lang.String" description="存储路径">
+                    <column name="file_path" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="secretFlag" type="java.lang.String" description="是否为机密文件，Y-是机密，N-不是机密">
+                    <column name="secret_flag" length="1" jdbc-type="CHAR"/>
+                </basic>
+                <basic name="delFlag" type="java.lang.String" description="是否删除：Y-被删除，N-未删除">
+                    <column name="del_flag" nullable="false" length="1" jdbc-type="CHAR"/>
+                </basic>
+            </attributes>
+        </entity>
+        <entity name="SysFileStorage" description="文件存储信息">
+            <table name="sys_file_storage"/>
+            <attributes>
+                <id name="fileId" type="java.lang.Long" description="文件主键id，关联file_info表的主键">
+                    <column name="file_id" nullable="false" jdbc-type="BIGINT"/>
+                </id>
+                <basic name="fileBytes" type="java.sql.Blob" description="具体文件的字节信息">
+                    <column name="file_bytes" jdbc-type="VARBINARY"/>
+                </basic>
+            </attributes>
+        </entity>
+        <entity name="SysLog" description="日志记录">
+            <table name="sys_log"/>
+            <attributes>
+                <id name="logId" type="java.lang.Long" description="主键">
+                    <column name="log_id" nullable="false" jdbc-type="BIGINT"/>
+                </id>
+                <basic name="logName" type="java.lang.String" description="日志的名称，一般为业务名称">
+                    <column name="log_name" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="logContent" type="java.lang.String" description="日志记录的内容">
+                    <column name="log_content" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="appName" type="java.lang.String" description="服务名称，一般为spring.application.name">
+                    <column name="app_name" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="requestUrl" type="java.lang.String" description="当前用户请求的url">
+                    <column name="request_url" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="requestParams" type="java.lang.String" description="http或方法的请求参数体">
+                    <column name="request_params" jdbc-type="CLOB"/>
+                </basic>
+                <basic name="requestResult" type="java.lang.String" description="http或方法的请求结果">
+                    <column name="request_result" jdbc-type="CLOB"/>
+                </basic>
+                <basic name="serverIp" type="java.lang.String" description="当前服务器的ip">
+                    <column name="server_ip" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="clientIp" type="java.lang.String" description="客户端的ip">
+                    <column name="client_ip" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="userId" type="java.lang.Long" description="用户id">
+                    <column name="user_id" jdbc-type="BIGINT"/>
+                </basic>
+                <basic name="httpMethod" type="java.lang.String" description="请求http方法">
+                    <column name="http_method" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="clientBrowser" type="java.lang.String" description="客户浏览器标识">
+                    <column name="client_browser" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="clientOs" type="java.lang.String" description="客户操作系统">
+                    <column name="client_os" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="createTime" type="java.util.Date" description="创建时间">
+                    <column name="create_time" jdbc-type="TIMESTAMP"/>
+                </basic>
+                <basic name="createUserName" type="java.lang.String" description="创建人账号">
+                    <column name="create_user_name" length="50" jdbc-type="VARCHAR"/>
+                </basic>
+            </attributes>
+        </entity>
+        <entity name="SysLoginLog" description="登录记录">
+            <table name="sys_login_log"/>
+            <attributes>
+                <id name="llgId" type="java.lang.Long" description="主键">
+                    <column name="llg_id" nullable="false" jdbc-type="BIGINT"/>
+                </id>
+                <basic name="llgName" type="java.lang.String" description="日志名称">
+                    <column name="llg_name" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="llgSucceed" type="java.lang.String" description="是否执行成功">
+                    <column name="llg_succeed" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="llgMessage" type="java.lang.String" description="具体消息">
+                    <column name="llg_message" jdbc-type="CLOB"/>
+                </basic>
+                <basic name="llgIpAddress" type="java.lang.String" description="登录ip">
+                    <column name="llg_ip_address" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="userId" type="java.lang.Long" description="用户id">
+                    <column name="user_id" jdbc-type="BIGINT"/>
+                </basic>
+                <basic name="loginAccount" type="java.lang.String" description="用户账号">
+                    <column name="login_account" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+            </attributes>
+        </entity>
+        <entity name="SysSms" description="短信发送记录">
+            <table name="sys_sms"/>
+            <attributes>
+                <id name="smsId" type="java.lang.Long" description="主键">
+                    <column name="sms_id" nullable="false" jdbc-type="BIGINT"/>
+                </id>
+                <basic name="templateCode" type="java.lang.String" description="短信模板编号">
+                    <column name="template_code" length="255" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="bizId" type="java.lang.String" description="业务id">
+                    <column name="biz_id" length="20" jdbc-type="VARCHAR"/>
+                </basic>
+                <basic name="source" type="java.lang.Integer" description="来源：1-app，2-pc，3-其他">
+                    <column name="source" jdbc-type="INTEGER"/>
+                </basic>
+                <basic name="invalidTime" type="java.util.Date" description="短信失效截止时间">
+                    <column name="invalid_time" jdbc-type="TIMESTAMP"/>
+                </basic>
+            </attributes>
+        </entity>
+    </module>
+</med>

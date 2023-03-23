@@ -1,0 +1,129 @@
+<?xml encoding="UTF-8"?>
+
+<!ELEMENT med (module,enum-definition)>
+
+<!ELEMENT module (base-entity,entity)>
+<!ATTLIST module
+    name CDATA #REQUIRED
+    description CDATA #IMPLIED
+    package CDATA #IMPLIED>
+
+<!ELEMENT enum-definition (enum)>
+<!ATTLIST enum-definition
+    description CDATA #IMPLIED
+    name CDATA #REQUIRED
+    package CDATA #IMPLIED>
+
+<!ELEMENT entity (base-entity,table,discriminator-value,discriminator-column,attributes)>
+<!ATTLIST entity
+    name CDATA #REQUIRED
+    description CDATA #IMPLIED>
+
+<!ELEMENT table (unique-constraint,index)>
+<!ATTLIST table
+    name CDATA #REQUIRED>
+
+<!ELEMENT discriminator-value (#PCDATA)>
+
+<!ELEMENT discriminator-column EMPTY>
+<!ATTLIST discriminator-column
+    column-definition CDATA #REQUIRED
+    discriminator-type CDATA  #REQUIRED
+    length CDATA #REQUIRED
+    name CDATA #REQUIRED>
+
+<!ELEMENT attributes (id,basic,enum,version,many-to-one,one-to-many,transient)>
+
+<!ELEMENT unique-constraint (column-name)>
+<!ATTLIST unique-constraint
+    name CDATA #REQUIRED>
+
+<!ELEMENT index EMPTY>
+<!ATTLIST index
+    column-list CDATA #REQUIRED
+    description CDATA #REQUIRED
+    name CDATA #REQUIRED
+    unique (true|false) "false"
+>
+
+<!ELEMENT id (column, generated-value)>
+<!ATTLIST id
+    description CDATA #REQUIRED
+    name CDATA #REQUIRED
+    type CDATA #REQUIRED
+>
+
+<!ELEMENT basic (column)>
+<!ATTLIST basic
+    description CDATA #REQUIRED
+    name CDATA #REQUIRED
+    type CDATA #REQUIRED
+>
+
+<!ELEMENT version (column)>
+<!ATTLIST version
+    description CDATA #REQUIRED
+    name CDATA #REQUIRED
+    type CDATA #REQUIRED>
+
+<!ELEMENT many-to-one (join-column)>
+<!ATTLIST many-to-one
+    description CDATA #REQUIRED
+    name CDATA #REQUIRED
+    target-entity CDATA #REQUIRED>
+
+<!ELEMENT one-to-many (order-column,join-column)>
+<!ATTLIST one-to-many
+    description CDATA #REQUIRED
+    name CDATA #REQUIRED
+    target-entity CDATA #REQUIRED>
+
+<!ELEMENT transient EMPTY>
+<!ATTLIST transient
+    description CDATA #REQUIRED
+    name CDATA #REQUIRED
+    type CDATA #REQUIRED>
+
+<!ELEMENT column-name (#PCDATA)>
+
+<!ELEMENT generated-value EMPTY>
+<!ATTLIST generated-value
+    generator  #REQUIRED
+    strategy  #REQUIRED>
+
+<!ELEMENT order-column EMPTY>
+<!ATTLIST order-column
+    xmlns CDATA #FIXED ''
+    descend (true|false) "false"
+    name  #REQUIRED>
+
+<!ELEMENT base-entity (#PCDATA)>
+
+<!ELEMENT column EMPTY>
+<!ATTLIST column
+    jdbc-type CDATA #REQUIRED
+    length CDATA #IMPLIED
+    name CDATA #REQUIRED
+    nullable (true|false) "false"
+    precision CDATA #IMPLIED
+    scale CDATA #IMPLIED
+    type-handler CDATA #IMPLIED
+    unique (true|false) "false">
+
+<!ELEMENT enum (column|field)>
+<!ATTLIST enum
+    description CDATA #REQUIRED
+    name CDATA #REQUIRED
+    target-enum CDATA #IMPLIED>
+
+<!ELEMENT field EMPTY>
+<!ATTLIST field
+    description CDATA #REQUIRED
+    name CDATA #REQUIRED
+    type-handler CDATA #REQUIRED
+    value CDATA #REQUIRED>
+
+<!ELEMENT join-column EMPTY>
+<!ATTLIST join-column
+    left CDATA #REQUIRED
+    right CDATA #REQUIRED>

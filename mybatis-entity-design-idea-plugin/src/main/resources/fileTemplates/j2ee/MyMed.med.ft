@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<med xmlns="http://entframework.io/ns/mybatis"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://entframework.io/ns/mybatis
+                    https://mybatis-generator.oss-cn-shanghai.aliyuncs.com/mybatis-mapping-bindings-1.0.xsd"
+     version="2.1">
+</med>

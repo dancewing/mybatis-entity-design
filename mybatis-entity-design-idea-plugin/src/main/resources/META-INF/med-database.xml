@@ -1,0 +1,8 @@
+<idea-plugin>
+    <actions>
+        <action id="Mybatis.MED.DBGenerator" class="io.entframework.med.idea.action.MedReverseAction"
+                text="MedGen-DB">
+            <add-to-group group-id="DatabaseViewPopupMenu" anchor="after" relative-to-action="CopyReference"/>
+        </action>
+    </actions>
+</idea-plugin>

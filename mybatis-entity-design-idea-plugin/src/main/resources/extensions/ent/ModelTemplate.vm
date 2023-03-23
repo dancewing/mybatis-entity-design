@@ -1,0 +1,21 @@
+package ${object.package};
+
+import lombok.Data;
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * $!{object.comment}Entity
+ */
+@Data
+public class ${object.name} implements Serializable {
+
+    #foreach($item in $object.fields)
+
+    /**
+     * $!{item.comment}
+     */
+    private ${item.javaType.shortName} ${item.name};
+    #end
+
+}

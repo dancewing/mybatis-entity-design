@@ -1,0 +1,155 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>io.entframework.mybatis.generator-idea-plugin</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Mybatis Generator Builder</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="qbaojian@163.com" url="https://github.com/dancewing">Jeff Qian</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    A free GUI tool integrated with MyBatis Generator, which is specially compatible with IDEA CE.
+    <br>
+    Supported databases: mysql/postgresql/mariadb/oracle/sqlserver/sqlite/h2.
+    <br>
+    Provides with additional features as below.<br>
+    <ul>
+      <li>Merge existing MyBatis files automatically.</li>
+      <li>Support select with lock statement.</li>
+      <li>Support Lombok @Data annotation on java model.</li>
+      <li>Customizable mapper annotation, default is Spring @Repository.</li>
+      <li>Customizable patterns for mapper type, example type and SQL file name.</li>
+      <li>"Copy as Executable SQL" from MyBatis log.</li>
+      <li>"Run MyBatis Generator" with official configuration file.</li>
+    </ul>
+  ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.xml</depends>
+    <depends>com.intellij.java</depends>
+    <depends optional="true" config-file="med-uml.xml">com.intellij.diagram</depends>
+    <depends optional="true" config-file="med-database.xml">com.intellij.database</depends>
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <actions>
+        <!-- New Med file-->
+        <action id="MyBatis.NewMed"
+                class="io.entframework.med.idea.action.NewMyBatisMedAction">
+            <add-to-group group-id="NewGroup" relative-to-action="NewFromTemplate" anchor="after"/>
+        </action>
+
+        <!-- Run MyBatis Generator popup menu -->
+        <group id="ProjectViewPopupMenuMyBatisBuilderGroup">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="before"
+                          relative-to-action="ProjectViewPopupMenuRunGroup"/>
+            <action id="MyBatisBuilder.RunMedGenerator" text="Run MyBatis Generator" icon="/icons/med-file-type.svg"
+                    description="Generate code with selected med file"
+                    class="io.entframework.med.idea.action.MedCodeGeneratorAction"/>
+        </group>
+
+        <action id="MyBatisMed.Tree.Copy" text="Copy"
+                description="Copy nodes" icon="AllIcons.Actions.Copy"
+                class="io.entframework.med.view.action.CopyAction"/>
+        <action id="MyBatisMed.Tree.Paste" text="Paste..."
+                description="Paste copied nodes" icon="AllIcons.Actions.MenuPaste"
+                class="io.entframework.med.view.action.PasteAction"/>
+
+        <action id="MyBatisMed.Tree.RemoveNode" text="Remove..."
+                description="Remove selected nodes" icon="AllIcons.Vcs.Remove"
+                class="io.entframework.med.view.action.RemoveNodeAction"/>
+
+        <action id="MyBatisMed.Tree.Import" text="Import..."
+                description="Import entities from script" icon="AllIcons.ToolbarDecorator.Import"
+                class="io.entframework.med.view.action.ImportPopupAction"/>
+        <action id="MyBatisMed.Tree.ImportFromScript" text="Import from Script"
+                description="Import entities from script" icon="AllIcons.ToolbarDecorator.Import"
+                class="io.entframework.med.view.action.ImportFromScriptAction"/>
+        <action id="MyBatisMed.Tree.ImportFromDataSource" text="Import from Datasource"
+                description="Import entities from script" icon="AllIcons.ToolbarDecorator.Import"
+                class="io.entframework.med.view.action.ImportFromDataSourceAction"/>
+
+        <action id="MyBatisMed.Tree.ShowSQL" text="Show SQL..."
+                description="Show sql" icon="/icons/sql.svg"
+                class="io.entframework.med.view.action.ShowSqlAction"/>
+
+        <action id="MyBatisMed.Operation.AddTable" text="Add Table"
+                description="Add table to selected entity" icon="AllIcons.Vcs.Remove"
+                class="io.entframework.med.view.properties.action.AddTableAction"/>
+
+    </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- tool window -->
+        <toolWindow id="MED Designer" anchor="left" secondary="true" icon="/icons/med-file-type.svg"
+                    factoryClass="io.entframework.med.view.MybatisBuilderToolWindowFactory"/>
+
+
+        <!-- core project service -->
+        <projectService serviceImplementation="io.entframework.med.MedJaxbService"/>
+        <projectService serviceImplementation="io.entframework.med.MedJaxbElementMetaService"/>
+        <projectService serviceImplementation="io.entframework.med.service.FileWriteService"/>
+        <projectService serviceImplementation="io.entframework.med.service.TemplateProcessService"/>
+        <!-- application state -->
+        <projectService serviceImplementation="io.entframework.med.service.MyBatisGeneratorConfigManager"/>
+
+        <projectService serviceImplementation="io.entframework.med.view.MybatisToolwindowView"/>
+        <projectService serviceInterface="io.entframework.med.view.properties.PropertyManager"
+                        serviceImplementation="io.entframework.med.view.properties.PropertyManagerImpl"/>
+        <!-- notification group, since 203.3645.34 -->
+        <notificationGroup id="MyBatisBuilder.NotificationGroup" displayType="BALLOON" isLogByDefault="true"/>
+
+        <postStartupActivity implementation="io.entframework.med.MybatisStartupActivity"/>
+
+        <!--Type Presentation-->
+        <!--        <typeName className="io.entframework.med.dom.MedDomAttributes" name="Macro Definition"/>-->
+
+        <!--        <localInspection language="MED" shortName="RequiredAttributes" enabledByDefault="true" level="WARNING"
+                                 bundle="messages.XmlBundle" key="xml.inspections.required.attributes.display.name"
+                                 groupBundle="messages.XmlBundle" groupKey="html.inspections.group.name"
+                                 implementationClass="com.intellij.codeInspection.htmlInspections.RequiredAttributesInspection"/>-->
+    </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+
+        <fileType name="MED" language="MED" fieldName="INSTANCE"
+                  implementationClass="io.entframework.med.language.MedXmlFileType" extensions="med"/>
+        <lang.parserDefinition language="MED"
+                               implementationClass="io.entframework.med.language.MedParserDefinition"/>
+        <lang.ast.factory language="MED" implementationClass="com.intellij.lang.xml.XmlASTFactory"/>
+        <lang.syntaxHighlighterFactory language="MED"
+                                       implementationClass="com.intellij.lang.xml.XmlSyntaxHighlighterFactory"/>
+        <completion.contributor language="MED"
+                                implementationClass="com.intellij.codeInsight.completion.XmlLocationCompletionContributor"
+                                id="medLocation" order="before xmlNonFirst"/>
+        <!--        <lang.psiStructureViewFactory language="MED" implementationClass="io.entframework.med.idea.MedPsiStructureViewFactory" />-->
+        <standardResourceProvider implementation="io.entframework.med.language.MedDefinitionsResourceProvider"/>
+        <xml.schemaProvider implementation="io.entframework.med.language.MedXmlSchemaProvider"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <projectConfigurable groupId="root" groupWeight="45" dynamic="true" key="mybatis.med.main.configurable.name"
+                             bundle="messages.MEDBundle"
+                             provider="io.entframework.med.configurable.MedManagerConfigurableProvider"
+                             id="mybatis.med.propSupport"/>
+        <projectService serviceImplementation="io.entframework.med.configurable.SettingManager"/>
+        <projectService serviceImplementation="io.entframework.med.configurable.TemplateEventManager"/>
+
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <dom.fileMetaData implementation="io.entframework.med.language.MedDomFileDescription" rootTagName="med"/>
+        <dom.uiControlsProvider implementation="io.entframework.med.language.MedDomUiControlProvider"/>
+    </extensions>
+
+    <projectListeners>
+
+    </projectListeners>
+</idea-plugin>

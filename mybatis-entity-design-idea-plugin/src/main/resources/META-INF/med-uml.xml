@@ -1,0 +1,15 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <diagram.Provider implementation="io.entframework.med.uml.MedUmlProvider"/>
+        <fileEditorProvider implementation="io.entframework.med.uml.MedSplitEditorProvider"/>
+    </extensions>
+
+    <actions>
+        <action id="MED.Layout.EditorOnly"
+                class="io.entframework.med.uml.MedChangePreviewLayoutAction$EditorOnly"/>
+        <action id="MED.Layout.EditorAndPreview"
+                class="io.entframework.med.uml.MedChangePreviewLayoutAction$EditorAndPreview"/>
+        <action id="MED.Layout.PreviewOnly"
+                class="io.entframework.med.uml.MedChangePreviewLayoutAction$PreviewOnly"/>
+    </actions>
+</idea-plugin>

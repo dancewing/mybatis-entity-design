@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<med version="1.0" xsi:schemaLocation="http://entframework.io/ns/mybatis https://mybatis-generator.oss-cn-shanghai.aliyuncs.com/mybatis-mapping-bindings-1.0.xsd" xmlns="http://entframework.io/ns/mybatis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <entity-mappings name="student" description="ss">
+        <entity name="ClassGrade">
+            <attributes>
+                <id type="Integer" description="ID" name="id">
+                    <column name="id_" jdbc-type="VARCHAR"/>
+                </id>
+                <basic name="name" type="String" description="ss">
+                    <column name="name_" unique="false" nullable="false" length="200"/>
+                </basic>
+                <basic name="regulatorId" type="Integer" description="regulatorId">
+                    <column name="name_" unique="true" length="200"/>
+                </basic>
+                <enum name="gradeType" target-enum="GradeTypeEnum" description="GradeType">
+                    <column name="grade_type"/>
+                </enum>
+                <version name="version" type="Integer" description="1111">
+                    <column name="version_" jdbc-type="BIGINT"/>
+                </version>
+                <many-to-one target-entity="Teacher" name="regulator">
+                    <join-column left="regulatorId" right="id"/>
+                </many-to-one>
+                <one-to-many name="students" target-entity="Student">
+                    <join-column left="id" right="gradeId"/>
+                </one-to-many>
+            </attributes>
+        </entity>
+        <entity name="Student">
+            <attributes>
+                <id name="id" type="Integer">
+                    <column name="id"/>
+                </id>
+                <basic name="gradeId" type="Integer">
+                    <column name="grade_id"/>
+                </basic>
+                <enum name="sex" target-enum="SexEnum" description="Sex">
+                    <column name="sex_"/>
+                </enum>
+            </attributes>
+        </entity>
+        <entity name="Teacher">
+            <attributes>
+                <id name="id" type="Integer">
+                    <column name="id"/>
+                </id>
+                <basic name="name" type="String">
+                    <column name="name"/>
+                </basic>
+                <enum name="sex" target-enum="SexEnum" description="Sex">
+                    <column name="sex_"/>
+                </enum>
+            </attributes>
+        </entity>
+    </entity-mappings>
+    <enum-definitions name="general" description="enums">
+        <enum name="SexEnum">
+            <field name="MALE" value="1" description="MALE"/>
+            <field name="FEMALE" value="2" description="FEMALE"/>
+        </enum>
+        <enum name="GradeTypeEnum">
+            <field name="ADVANCE" value="0" description="高级"/>
+            <field name="COMMON" value="1" description="普通"/>
+        </enum>
+    </enum-definitions>
+</med>
